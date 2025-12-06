@@ -12,13 +12,11 @@ public class MovementScript : MonoBehaviour
 
     public float maxSpeed = 10.0f;
     public float minSpeed = -10.0f;
-// TODO : Get perfect wall cordinates
+
     public float bottomYWallCordinates = -6.5f;
     public float topYWallCordinates = 6.5f;
     public float leftXWallCordinates = -12.5f;
     public float rightXWallCordinates = 12.5f;
-
-    public float testVar = 5f;
 
 
     // Start is called before the first frame update
@@ -31,7 +29,10 @@ public class MovementScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        testVar += 1f * Time.deltaTime;
+        //TODO Optimise code
+        //TODO Remove test variable
+        //TODO Make it get collison from colliders instead of cordinates
+
 
         // Controls with WASD
         if (Input.GetKey(KeyCode.W))
