@@ -6,17 +6,17 @@ public class MovementScript : MonoBehaviour
 {
     public float xspeed = 0f;
     public float yspeed = 0f;
-    public float movementSpeed = 1.0f;
-    public float deceleration = 0.1f;
+    public float movementSpeed = 4.0f;
+    public float deceleration = 0.005f;
 
 
     public float maxSpeed = 10.0f;
-    public float minSpeed = 0.0f;
-
-    public float bottomYWallCordinates = -4.5f;
-    public float topYWallCordinates = 4.5f;
-    public float leftXWallCordinates = -7.5f;
-    public float rightXWallCordinates = 7.5f;
+    public float minSpeed = -10.0f;
+// TODO : Get perfect wall cordinates
+    public float bottomYWallCordinates = -6.5f;
+    public float topYWallCordinates = 6.5f;
+    public float leftXWallCordinates = -12.5f;
+    public float rightXWallCordinates = 12.5f;
 
     public float testVar = 5f;
 
@@ -24,13 +24,37 @@ public class MovementScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        testVar = 5f;
+        print("Movement Script Initialized");
     }
 
 
     // Update is called once per frame
     void Update()
     {
+        testVar += 1f * Time.deltaTime;
+
+        // Controls with WASD
+        if (Input.GetKey(KeyCode.W))
+        {
+            yspeed += movementSpeed*Time.deltaTime;
+            print("yspeed is increasing positively");
+        }
+        if (Input.GetKey(KeyCode.S))
+        {
+            yspeed -= movementSpeed*Time.deltaTime;
+            print("yspeed is decreasing negatively");
+        }
+        if (Input.GetKey(KeyCode.A))
+        {
+            xspeed -= movementSpeed*Time.deltaTime;
+            print("xspeed is decreasing negatively");
+        }
+        if (Input.GetKey(KeyCode.D))
+        {
+            xspeed += movementSpeed*Time.deltaTime;
+            print("xspeed is increasing positively");
+        }
+
         if (xspeed > maxSpeed) {
             xspeed = maxSpeed;
         }
@@ -43,31 +67,27 @@ public class MovementScript : MonoBehaviour
         if (yspeed < minSpeed) {
             yspeed = minSpeed;
         }
-        // Get speed to decrease every second rather than every frame
-        if (xspeed > 0) {
-            xspeed -= deceleration * Time.deltaTime;
-        }
-        if (yspeed > 0) {
-            yspeed -= deceleration * Time.deltaTime;
-        }
 
-        // Controls with WASD
-        if (Input.GetKey(KeyCode.W))
-        {
-            yspeed += movementSpeed;
+         // Deceleration
+        if (xspeed >= 0.05f) {
+            xspeed -= deceleration;
+            print("XSpeed is decreasing negatively");
         }
-        if (Input.GetKey(KeyCode.S))
-        {
-            yspeed -= movementSpeed;
+        if (xspeed <= -0.05f)
+            {
+                xspeed += deceleration;
+                print("XSpeed is decreasing positively");
+            }
+        if (yspeed >= 0.05f) {
+            yspeed -= deceleration;
+            print("YSpeed is decreasing negatively");
         }
-        if (Input.GetKey(KeyCode.A))
-        {
-            xspeed -= movementSpeed;
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            xspeed += movementSpeed;
-        }
+        if (yspeed <= -0.05f)
+            {
+                yspeed += deceleration;
+                print("YSpeed is decreasing positively");
+            }
+       
         
         // Object movement
 
@@ -76,19 +96,19 @@ public class MovementScript : MonoBehaviour
         // Wall collision
         if (transform.position.y < bottomYWallCordinates) {
             transform.position = new Vector3(transform.position.x, bottomYWallCordinates, transform.position.z);
-            yspeed = 0;
+            yspeed = 0f;
         }
         if (transform.position.y > topYWallCordinates) {
             transform.position = new Vector3(transform.position.x, topYWallCordinates, transform.position.z);
-            yspeed = 0;
+            yspeed = 0f;
         }
         if (transform.position.x < leftXWallCordinates) {
             transform.position = new Vector3(leftXWallCordinates, transform.position.y, transform.position.z);
-            xspeed = 0;
+            xspeed = 0f;
         }
         if (transform.position.x > rightXWallCordinates) {
             transform.position = new Vector3(rightXWallCordinates, transform.position.y, transform.position.z);
-            xspeed = 0;
+            xspeed = 0f;
         }
     }
 }
